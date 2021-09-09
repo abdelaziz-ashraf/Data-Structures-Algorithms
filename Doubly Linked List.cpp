@@ -46,9 +46,11 @@ int doublyLinkedList::getSize()
     return length;
 }
 
-void doublyLinkedList::Clear(){
+void doublyLinkedList::Clear()
+{
     node*cur;
-    while(first != NULL){
+    while(first != NULL)
+    {
         cur = first;
         first = first->next;
         delete cur;
@@ -57,19 +59,23 @@ void doublyLinkedList::Clear(){
     length = 0;
 }
 
-doublyLinkedList::~doublyLinkedList(){
+doublyLinkedList::~doublyLinkedList()
+{
     Clear();
 }
 
-void doublyLinkedList::insertEnd(int item){
+void doublyLinkedList::insertEnd(int item)
+{
     node*newNode = new node;
     newNode->val = item;
     newNode->next = NULL;
-    if(length == 0){
+    if(length == 0)
+    {
         newNode->prv = NULL;
         first = last = newNode;
     }
-    else{
+    else
+    {
         newNode->prv = last;
         last->next = newNode;
         last = newNode;
@@ -77,15 +83,18 @@ void doublyLinkedList::insertEnd(int item){
     length++;
 }
 
-void doublyLinkedList::insertFirst(int item){
+void doublyLinkedList::insertFirst(int item)
+{
     node*newNode = new node;
     newNode->val = item;
     newNode->prv = NULL;
-    if(length == 0){
+    if(length == 0)
+    {
         newNode->next = NULL;
         first = last = newNode;
     }
-    else{
+    else
+    {
         newNode->next = first;
         first->prv = newNode;
         first = newNode;
@@ -93,17 +102,20 @@ void doublyLinkedList::insertFirst(int item){
     length++;
 }
 
-void doublyLinkedList::insertAt(int pos, int item){
+void doublyLinkedList::insertAt(int pos, int item)
+{
     if(pos < 0 || pos > length)
         cout << "Pos out of range\n";
     else if(pos == 0)
         insertFirst(item);
     else if(pos == length)
         insertEnd(item);
-    else{
+    else
+    {
         node*newNode = new node;
         node*temp = first;
-        for(int i = 1; i < pos; i++){
+        for(int i = 1; i < pos; i++)
+        {
             temp = temp->next;
         }
         newNode->val = item;
@@ -115,15 +127,18 @@ void doublyLinkedList::insertAt(int pos, int item){
     }
 }
 
-void doublyLinkedList::removeFirst(){
+void doublyLinkedList::removeFirst()
+{
     if(length == 0)
-    cout << "Empty linked list\n";
-    else if(length == 1){
+        cout << "Empty linked list\n";
+    else if(length == 1)
+    {
         delete first;
         first = last = NULL;
         length--;
     }
-    else{
+    else
+    {
         node*cur = first;
         first = first->next;
         first->prv = NULL;
@@ -132,15 +147,18 @@ void doublyLinkedList::removeFirst(){
     }
 }
 
-void doublyLinkedList::removeEnd(){
+void doublyLinkedList::removeEnd()
+{
     if(length == 0)
-    cout << "Empty linked list\n";
-    else if(length == 1){
+        cout << "Empty linked list\n";
+    else if(length == 1)
+    {
         delete first;
         first = last = NULL;
         length--;
     }
-    else{
+    else
+    {
         node*cur = last;
         last = last->prv;
         last->next = NULL;
@@ -149,16 +167,19 @@ void doublyLinkedList::removeEnd(){
     }
 }
 
-void doublyLinkedList::removeNthNode(int pos){
+void doublyLinkedList::removeNthNode(int pos)
+{
     if(pos < 0 || pos > length-1)
         cout << "Out of range";
     else if(pos == 0)
         removeFirst();
     else if(pos == length+1)
         removeEnd();
-    else{
+    else
+    {
         node*cur = first->next;
-        for(int i = 1; i < pos; i++){
+        for(int i = 1; i < pos; i++)
+        {
             cur = cur->next;
         }
         cur->next->prv = cur->prv;
@@ -168,20 +189,24 @@ void doublyLinkedList::removeNthNode(int pos){
     }
 }
 
-void doublyLinkedList::disPlay(){
+void doublyLinkedList::disPlay()
+{
     node*cur = first;
     cout << "[ ";
-    while(cur != NULL){
+    while(cur != NULL)
+    {
         cout << cur->val << " ";
         cur = cur->next;
     }
     cout << "]\n";
 }
 
-void doublyLinkedList::reverseDisPlay(){
+void doublyLinkedList::reverseDisPlay()
+{
     node*cur = last;
     cout << "[ ";
-    while(cur != NULL){
+    while(cur != NULL)
+    {
         cout << cur->val << " ";
         cur = cur->prv;
     }
