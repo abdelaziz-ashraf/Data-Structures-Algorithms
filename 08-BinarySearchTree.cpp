@@ -38,7 +38,6 @@ BST::BST()
 bool BST::isEmpty()
 {
     return root == nullptr;
-    length = 0;
 }
 
 void BST::add(int val)
