@@ -1,6 +1,5 @@
 #include <iostream>
 #include <queue>
-
 using namespace std;
 
 struct node
@@ -18,16 +17,22 @@ private:
     void preOrder(node*n);
     void inOrder(node*n);
     void postOrder(node*n);
+    int height(node*N);
+    node* deleteNode(node*N, int data);
+    node* minNodeToUseInDeleting(node* N);
+
 public:
     BST();
     bool isEmpty();
     void add(int val);
     void getMixValue(int&item);
     void getMinValue(int&item);
-    void preorderTraversal();
-    void inorderTraversal();
-    void postorderTraversal();
-    void levelorderTraversal();
+    void preorderTraversal();   // Depth First Search
+    void inorderTraversal();    // Depth First Search
+    void postorderTraversal();  // Depth First Search
+    void levelorderTraversal(); // Breadth First Search
+    int findHeight();
+    void Delete(int data);
 };
 
 
@@ -151,18 +156,86 @@ void BST::levelorderTraversal()
 {
     if(root == nullptr)
         return;
+
     queue<node*> q;
     q.push(root);
+
     while( !q.empty() )
     {
         node*temp = q.front();
         cout << temp->data << " ";
         q.pop();
+
         if(temp->left != nullptr)
             q.push(temp->left);
+
         if(temp->right != nullptr)
             q.push(temp->right);
     }
+}
+
+int BST::findHeight()
+{
+    if(root == nullptr)
+        return -1;
+
+    height(root);
+}
+
+int BST::height(node*N)
+{
+    if(N == nullptr)
+        return 0;
+
+    return 1+max(height(N->left), height(N->right));
+}
+
+node* BST::minNodeToUseInDeleting(node* N){
+    if(N->right != nullptr)
+        minNodeToUseInDeleting(N->right);
+
+    return N;
+}
+
+void BST::Delete(int data){
+    if(root == nullptr)
+        return;
+
+    deleteNode(root, data);
+}
+
+node* BST::deleteNode(node*N, int data){
+    if(N == nullptr)
+        return N;
+
+    if(data < N->data){
+        N->left = deleteNode(N->left, data);
+    }
+    else if(data > N->data){
+        N->right = deleteNode(N->right, data);
+    }
+    else{
+        if(N->left == nullptr && N->right == nullptr){
+            delete N;
+            N = nullptr;
+        }
+        else if(N->left == nullptr){
+            node* temp = N;
+            N = N->right;
+            delete temp;
+        }
+        else if(N->right == nullptr){
+            node* temp = N;
+            N = N->left;
+            delete temp;
+        }
+        else {
+            node* temp = minNodeToUseInDeleting(N->left);
+            N->data = temp->data;
+            N->left = deleteNode(N->left, temp->data);
+        }
+    }
+    return N;
 }
 
 int main()
@@ -186,11 +259,21 @@ int main()
 
     a.inorderTraversal();
     cout << "\n";
+
     a.levelorderTraversal();
     cout << "\n";
+
+    a.Delete(7);
+
     a.postorderTraversal();
     cout << "\n";
+
     a.preorderTraversal();
+    cout << "\n";
+
+
+    cout << a.findHeight() << "\n";
+
 
     return 0;
 }
